@@ -1,0 +1,14 @@
+body{
+    font-family: 'Poppins', sans-serif;
+}
+nav a {
+    font-size: 700;
+}
+
+.user-card-title{
+    font-size: 700;
+}
+
+.hide {
+    display: none;
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Implementasi Promise</title>
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+        rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-dark">
+    <!-- NAVBAR -->
+    <nav class="navbar bg-warning">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-dark m-auto" href="#">News Site</a>
+        </div>
+    </nav>
+    <!-- NAVBAR END -->
+
+    <!-- Search input -->
+    <div class="container-fluid">
+        <nav class="navbar mt-3">
+            <form class="container-fluid">
+                <div class="input-group">
+                    <!-- <span class="input-group-text" id="basic-addon1">Search</span> -->
+                    <input id="searchInput" type="text" class="form-control" placeholder="Find some insight.."
+                        aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </form>
+        </nav>
+        <p class="headline-badge mt-2 fw-bold text-white offset-1 fs-4"><span class="badge bg-warning">Headlines</span>
+            today</p>
+    </div>
+    <!-- Search input End -->
+
+    <!-- CONTENT -->
+    <div class="news-group-card  row row-cols-1 row-cols-md-2  g-2 g-lg-4"></div>
+        <!-- Alert -->
+    <div class="alert-card hide alert alert-warning text-center" role="alert">
+        Loading....
+    </div>
+    
+    <div class="notFound-card hide alert alert-warning text-center" role="alert">
+        Data tidak ditemukan
+    </div>
+        <!-- Alert End-->
+
+    <template id="news-card">
+        <div class="col">
+            <div class="card">
+                <img class="news-card-img card-img-top">
+                <div class="card-body">
+                    <h5 class="news-card-title card-title h6 fw-semibold"></h5>
+                    <span class="card-text"><small class="news-card-author text-muted mb-3">tanggal</small></span>
+                    <span class="card-text"><small class="news-card-date text-muted mb-3">tanggal</small></span>
+                    <p class="news-card-text card-text text-truncate">deskripsi</p>
+                    <a class="news-url-link btn btn-warning" target="_blank">Read more..</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- CONTENT END -->
+
+    <script src="js/index.js" type="module"></script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
