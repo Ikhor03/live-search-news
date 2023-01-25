@@ -1,7 +1,7 @@
-import { liveSearch } from "./content.js";
+import { printNews } from "./content.js";
 // import { pasData } from "./content.js";
 
-liveSearch();
+printNews();
 
 // function pasData() {
 //     let urlHeadline = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=1ec087e86b5143d28480549839fbe11c'
