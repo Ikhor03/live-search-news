@@ -3,75 +3,89 @@ function liveSearch(cb) {
     const notFoundCard = document.querySelector('.notFound-card');
     const searchInput = document.getElementById('searchInput');
     const alertCard = document.querySelector('.alert-card');
-    let urlEvery ='';
+    let data = getData(cb);
 
     // Live search
     let value;
-    let searchCard = [];
 
     searchInput.addEventListener('input', e => {
         value = e.target.value.toLowerCase();
-        // urlEvery = `https://newsapi.org/v2/everything?q=${value}&apiKey=1ec087e86b5143d28480549839fbe11c`
-
         let isFound = [];
-        searchCard.forEach(e => {
+        data[0].forEach(e => {
             let isMatch = e.title.toLowerCase().includes(value);
             isFound.push(isMatch);
             e.templateElement.classList.toggle('hide', !isMatch);
             !isFound.includes(true) ? notFoundCard.classList.remove('hide') : notFoundCard.classList.add('hide') // JIKA DATA TIDAK SESUAI
         })
-        return value;
     })
-
-    console.log(value);
-
-    //AMBIL DATA SESUAI LIVE INPUT SEARCH
-    // urlEvery = `https://newsapi.org/v2/everything?q=blitar&apiKey=1ec087e86b5143d28480549839fbe11c` //kurang ini doang, biar linknya bisa dinamis sesuai inputan user tuh gimanaaa
-    fetch(urlEvery)
-        .then(res => res.json())
-        .then(res => {
-            searchCard = cb(res);
-        })
-        .catch(() => {
-            notFoundCard.classList.remove('hide');
-            notFoundCard.textContent = 'Data yang anda Cari tidak ditemukan!'
-        })
-        .finally(() => {
-            alertCard.classList.add('hide');
-        })
-    return searchCard;
 }
 
-// AMBIL DATA MELALUI API (HEADLINE)
+// AMBIL DATA MELALUI API 
 function getData(cb) {
 
+    const searchInput = document.getElementById('searchInput');
     const notFoundCard = document.querySelector('.notFound-card');
     const alertCard = document.querySelector('.alert-card');
-    const urlHeadline = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=1ec087e86b5143d28480549839fbe11c'
+    let urlHeadline = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=1ec087e86b5143d28480549839fbe11c'
+
     let news = [];
     let temp;
+    let loadData = function (url) {
+        alertCard.classList.remove('hide'); // LOADING
+        fetch(url)
+            .then(res => res.json())
+            .then((data) => {
+                temp = cb(data);
+                news.push(temp)
+            })
+            // JIKA DATA TIDAK VALID
+            .catch(() => {
+                if (url === 'hide') {
+                    notFoundCard.classList.add('hide');
+                } else {
+                    notFoundCard.classList.remove('hide');
+                }
+                notFoundCard.textContent = 'Data yang anda Cari tidak ditemukan!'
+            })
+            .finally(() => {
+                alertCard.classList.add('hide');
+            })
+        return news;
+    }
 
-    alertCard.classList.remove('hide'); // LOADING
-    fetch(urlHeadline)
-        .then(res => res.json())
-        .then((data) => {
-            temp = cb(data);
-            news.push(temp)
-        })
-        // JIKA DATA TIDAK VALID
-        .catch(() => {
-            notFoundCard.classList.remove('hide');
-            notFoundCard.textContent = 'Data yang anda Cari tidak ditemukan!'
-        })
-        .finally(() => {
-            alertCard.classList.add('hide');
-        })
+    let loadNewsVar = loadData(urlHeadline);
 
-    return news;
+    let flag = true;
+    let searchUrl = function (value) {
+
+        if (value.length > 0) {
+            flag = false;
+            urlHeadline = `https://newsapi.org/v2/everything?q=${value}&apiKey=1ec087e86b5143d28480549839fbe11c`;
+        } else {
+            flag = true;
+            urlHeadline = 'https://newsapi.org/v2/top-headlines?country=id&apiKey=1ec087e86b5143d28480549839fbe11c'
+        }
+
+        return function () {
+            if (!flag) {
+                loadNewsVar = loadData(urlHeadline);
+            } else {
+                loadNewsVar = loadData('hide');
+            }
+        }
+    }
+
+    // NOTE : Function "searchUrl" untuk handle value input search belum ketemu
+    searchInput.addEventListener('input', e => {
+        let loadNews = searchUrl(e.target.value.toLowerCase());
+        // loadNews(); 
+    })
+
+    return loadNewsVar;
+
 }
 
 export function printNews() {
-    const searchInput = document.getElementById('searchInput');
     const newsGroupCard = document.querySelector('.news-group-card');
     const newsCardTemplate = document.getElementById('news-card');
     const template = (data) => {
@@ -102,10 +116,6 @@ export function printNews() {
         return output;
     }
 
-    // Menampilkan Headline
-    // let printHeadline = getData(template);
-
-    //menampilkan hasil pencarian
     liveSearch(template)
 }
 
